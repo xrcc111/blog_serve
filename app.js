@@ -3,6 +3,7 @@ const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
+const error = require('koa-json-error')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
@@ -16,6 +17,11 @@ onerror(app)
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+
+// 使用koa-json-error进行错误处理
+app.use(error({
+  postFormat:(e, {stack, ...rest}) => process.env.NODE_ENV === 'production' ? rest : {stack, ...rest}
+}));
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
