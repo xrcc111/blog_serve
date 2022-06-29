@@ -1,6 +1,7 @@
 // 引入数据库相关
 const query = require('../mysql/index')
 const {success, missId} = require('../utils/response')
+const {convertTree} = require('../utils/help')
 
 // 查询所有
 async function selectAll(ctx) {
@@ -11,7 +12,7 @@ async function selectAll(ctx) {
       resolve(rows)
     })
   })
-  success(ctx,result)
+  success(ctx, convertTree(result))
 }
 
 // 新增
@@ -42,6 +43,7 @@ async function deleteUser (ctx) {
       resolve(rows)
     })
   })
+  // 
   success(ctx,result)
 }
 
