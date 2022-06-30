@@ -1,3 +1,4 @@
+// 把树状转换成tree
 function convertTree (array) {
   const result = []
   const map = array.reduce( (pre,cru) => {

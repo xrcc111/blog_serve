@@ -2,12 +2,11 @@ const router = require('koa-router')()
 
 // 引入逻辑层代码
 const { selectAll, addUser, deleteUser} = require('../controllers/users')
-const query = require('../mysql/index')
-
-
 
 // 设置前缀
 router.prefix('/users')
+
+
 
 // 查询所有
 router.get('/', selectAll)

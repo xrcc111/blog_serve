@@ -9,11 +9,21 @@ const pool = mysql.createPool({
 })
 
 // 定义一个方法操作数据库导出
-module.exports =  function query(sql, callback) {
-  pool.getConnection((err, connection) => {
-    connection.query(sql,(err, rows) => {
-      callback(err,rows)
-      connection.release() // 断开连接
+module.exports =  function query(sql, values) {
+  return new Promise((resolve,reject) => {
+    pool.getConnection((err,connection) => {
+      if(err) {
+        reject(err)
+      }else {
+        connection.query(sql, values, (err, rows) => {
+          if (err) {
+            reject(err)
+          } else{
+            resolve(rows)
+          }
+          connection.release()
+        })
+      }
     })
   })
 }
