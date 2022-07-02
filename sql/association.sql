@@ -1,3 +1,5 @@
+-- 关联查询
+
 -- 学校表
 CREATE TABLE school (
 sch_id int(11) NOT NULL AUTO_INCREMENT,

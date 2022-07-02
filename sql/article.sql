@@ -15,3 +15,7 @@ SELECT * from t_stu ORDER BY age DESC LIMIT 0, 10
 -- 查询总量
 SELECT count(*) from t_stu
 SELECT count(id) from t_stu
+
+
+-- mysql的模糊查询
+SELECT * from student WHERE INSTR(st_name,'王')> 0;
