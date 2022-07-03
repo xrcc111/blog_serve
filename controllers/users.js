@@ -4,7 +4,7 @@ const query = require('../mysql/index')
 const jwt = require('jsonwebtoken')
 
 // 响应
-const {success, missId} = require('../utils/response')
+const {success, miss} = require('../utils/response')
 // 方法
 const {convertTree} = require('../utils/help')
 
@@ -31,7 +31,8 @@ async function login(ctx) {
       ctx.body = {
         code:1,
         message:`欢迎回来${username}`,
-        token:jwt.sign(res, JWT_SECERT , {expiresIn:'10h'})
+        token:jwt.sign(res, JWT_SECERT , {expiresIn:'10h'}),
+        expireAt: new Date(new  Date().setHours(new  Date().getHours() +  10))
       }
     }else {
       ctx.body = {
@@ -62,7 +63,7 @@ async function addUser (ctx) {
 async function deleteUser (ctx) {
   const key = ctx.request.body
   if(!key.id) {
-    missId(ctx)
+    miss(ctx,'id不能为空')
     return 
   }
   const sql = `delete from tree where id = ${key.id}`

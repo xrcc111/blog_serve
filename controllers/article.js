@@ -1,7 +1,7 @@
 // 引入数据库相关
 const query = require('../mysql/index')
 const {fetchArticleNums, paging, handlePages} = require('../mysql/aritcle')  //分页方法整合
-const {success, missId} = require('../utils/response')// 响应
+const {success, miss} = require('../utils/response')// 响应
 
 
 async function pagingQuery(ctx) {
@@ -18,7 +18,7 @@ async function pagingQuery(ctx) {
    ...handlePages(pageNum, pageSize, total)
    }
  }else {
-  const sql = `select * from article`  //查询所有
+  const sql = `select * from label a inner join article b on a.label_id=b.label_id;`  //查询所有
   const result = await query(sql)
   success(ctx,result)
  }

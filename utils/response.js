@@ -10,7 +10,7 @@ function success (ctx, data = [], message='success', code=200) {
 }
 
 // 缺少id
-function missId (ctx,  message='id不能为空', code = 1003) {
+function miss (ctx,  message='id不能为空', code = 1003) {
   ctx.body = {
     code,
     message
@@ -19,5 +19,5 @@ function missId (ctx,  message='id不能为空', code = 1003) {
 
 module.exports = {
   success,
-  missId
+  miss
 }

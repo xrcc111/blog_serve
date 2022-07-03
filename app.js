@@ -7,9 +7,11 @@ const error = require('koa-json-error')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+// 引入
 const index = require('./routes/index')
 const users = require('./routes/users')
 const article = require('./routes/article')
+const label = require('./routes/label')
 
 // error handler
 onerror(app)
@@ -43,6 +45,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
+app.use(label.routes(),label.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
