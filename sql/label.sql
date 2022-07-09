@@ -2,6 +2,7 @@
 CREATE TABLE `label` (
 `label_id` int(11) NOT NULL AUTO_INCREMENT,
 `label_name` varchar(50) NOT NULL,
+`create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', 
 PRIMARY KEY (`label_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
