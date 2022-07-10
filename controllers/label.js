@@ -15,11 +15,12 @@ async function selectLabel(ctx) {
 // 新增
 async function addLabel(ctx) {
   const { labelName } = ctx.request.body
+  console.log(ctx.request.body,labelName);
   if (!labelName) {
     miss(ctx,'标签不能为空')
    return
   }
-  const sql = `INSERT INTO label VALUES (null, '${labelName}' )`
+  const sql = `INSERT INTO label VALUES (null, '${labelName}',now() )`
   const result = await query(sql)
   success(ctx,result)
 }
