@@ -10,7 +10,8 @@ async function fetchArticleNums() {
 
 //分页实现
 async function paging(pageNum, pageSize) {
-  return await query(`select * from label a inner join article b on a.label_id=b.label_id ORDER BY id DESC LIMIT ${pageNum}, ${pageSize}`)
+  return await query(`select label_name, title, cover_img,b.create_time AS create_time, b.update_time AS update_time
+  from label a inner join article b on a.label_id=b.label_id ORDER BY id DESC LIMIT ${pageNum}, ${pageSize}`)
 }
 
 // 分页公共函数
