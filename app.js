@@ -12,6 +12,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const article = require('./routes/article')
 const label = require('./routes/label')
+const links = require('./routes/links')
 
 // error handler
 onerror(app)
@@ -45,7 +46,8 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
-app.use(label.routes(),label.allowedMethods())
+app.use(label.routes(), label.allowedMethods())
+app.use(links.routes(), links.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
