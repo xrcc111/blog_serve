@@ -35,8 +35,21 @@ async function updataFriendChain(ctx) {
   success(ctx,result)
 } 
 
+// 删除友链
+async function deleteFriendChain(ctx) {
+  const { id }  = ctx.request.body
+  if (!id) {
+    miss(ctx,'id不能为空')
+    return    
+  }
+  const sql = `DELETE FROM links WHERE id =${id}`
+  const result = await query(sql)
+  success(ctx, result)
+}
+
 module.exports = {
   newFriendChain,
   queryFriendChain,
-  updataFriendChain
+  updataFriendChain,
+  deleteFriendChain
 }
