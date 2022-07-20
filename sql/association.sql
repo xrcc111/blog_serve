@@ -54,3 +54,24 @@ select * from school a inner join student b on a.sch_id=b.sch_id ORDER BY hight,
 
 -- 5.内联查询降序 
 select * from school a inner join student b on a.sch_id=b.sch_id ORDER BY hight DESC, age DESC;
+
+
+
+-- CREATE TABLE `son` (
+--   `parent_id` int(11) NOT NULL AUTO_INCREMENT,
+--   `qq` varchar(50) NOT NULL,
+--   `message` varchar(100) NOT NULL,
+--   `nickname` varchar(50) NOT NULL,
+--   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+--   PRIMARY KEY (`parent_id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CREATE TABLE `parent` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `qq` varchar(50) NOT NULL,
+--   `message` varchar(100) NOT NULL,
+--   `nickname` varchar(50) NOT NULL,
+--   `parent_id` int(11) NOT NULL DEFAULT '0',
+--   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
