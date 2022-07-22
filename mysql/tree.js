@@ -5,12 +5,18 @@
 
  //留言总数
  async function fetchArticleNums() {
-   return await query(`select count(*)  as total from tree`)
+   return await query(`select count(*)  as total from parent where parent_id = 0 `)
  }
  
  //分页实现
  async function paging(pageNum, pageSize) {
-   return await query(`select * from  tree ORDER BY create_time DESC LIMIT ${pageNum}, ${pageSize}`)
+   return await query(`select * from (
+    SELECT * from parent WHERE parent_id = 0 
+    ORDER BY create_time DESC LIMIT ${pageNum}, ${pageSize}
+    ) a
+    UNION 
+    SELECT * from parent t WHERE EXISTS (SELECT t2.id from parent t2 WHERE t2.id = t.parent_id
+    ORDER BY create_time DESC limit ${pageNum}, ${pageSize});`)
  }
  
  // 分页公共函数

@@ -44,14 +44,13 @@ async function login(ctx) {
   }
 }
 
-// 查询所有
+// 查询所有 该方法用于前端做留言板
 async function selectAll(ctx) {
   const {pageNum, pageSize} = ctx.query
   if(pageNum&&pageSize) {
    const current = (pageNum - 1) * pageSize // 获取当前起始页码
    const total = (await fetchArticleNums())[0].total //  获取文章总条数
    const result = await paging(current, pageSize)
-   console.log(total,pageNum,pageSize)
    ctx.body = {
     code: 200,
     data:convertTree(result),
@@ -59,17 +58,36 @@ async function selectAll(ctx) {
     ...handlePages(pageNum, pageSize, total)
     }
   }else {
-   const sql = `select * from  tree`  //查询所有
+   const sql = `select * from  parent`  //查询所有
    const result = await query(sql)
    success(ctx, convertTree(result))
   }
+}
+
+// 查询所有 该方法用于后管做删除查看处理
+async function featchBlogMessage(ctx) {
+  const {pageNum, pageSize} = ctx.query
+  const isEmpty = pageNum&&pageSize
+  if(!isEmpty) {
+     miss(ctx,'缺少请求参数')
+     return
+    }
+    const current = (pageNum - 1) * pageSize // 获取当前起始页码
+    const total = (await fetchArticleNums())[0].total //  获取文章总条数
+    const result = await paging(current, pageSize)
+    ctx.body = {
+     code: 200,
+     data:convertTree(result),
+     //分页所有的参数
+     ...handlePages(pageNum, pageSize, total)
+    }
 }
 
 // 新增
 async function addUser (ctx) {
   const {qq, message, nickname, parentId}  = ctx.request.body
   console.log(qq, message, nickname, parentId);
-  const sql = `INSERT INTO tree (qq, message, nickname, parent_id) VALUES ( ${qq}, '${message}', '${nickname}', ${parentId} )`
+  const sql = `INSERT INTO parent (qq, message, nickname, parent_id) VALUES ( ${qq}, '${message}', '${nickname}', ${parentId} )`
   const result = await query(sql)
   ctx.body = result
 }
@@ -81,7 +99,7 @@ async function deleteUser (ctx) {
     miss(ctx,'id不能为空')
     return 
   }
-  const sql = `delete from tree where id = ${key.id}`
+  const sql = `delete from parent where id = ${key.id}`
   const result = await query(sql)
   success(ctx,result)
 }
@@ -90,5 +108,6 @@ module.exports = {
   login,
   selectAll,
   addUser,
-  deleteUser
+  deleteUser,
+  featchBlogMessage
 }
