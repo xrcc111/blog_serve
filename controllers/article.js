@@ -18,7 +18,7 @@ async function pagingQuery(ctx) {
    ...handlePages(pageNum, pageSize, total)
    }
  }else {
-  const sql = `select label_name, title, cover_img,b.create_time AS create_time, b.update_time AS update_time
+  const sql = `select id, label_name, title, cover_img,b.create_time AS create_time, b.update_time AS update_time
   from label a inner join article b on a.label_id=b.label_id;`  //查询所有
   const result = await query(sql)
   success(ctx,result)
