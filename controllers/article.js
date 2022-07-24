@@ -10,7 +10,6 @@ async function pagingQuery(ctx) {
   const current = (pageNum - 1) * pageSize // 获取当前起始页码
   const total = (await fetchArticleNums())[0].total //  获取文章总条数
   const result = await paging(current, pageSize)
-  console.log(total,pageNum,pageSize)
   ctx.body = {
    code: 200,
    data: result,
@@ -59,7 +58,19 @@ async function deleteArticle(ctx) {
     return
   }
   const sql = `DELETE FROM article WHERE id = ${id}`
-  const result = query(sql)
+  const result = await query(sql)
+  success(ctx,result)
+}
+
+// 文章查详情
+async function queryOne(ctx) {
+  const {id} = ctx.query
+  if(!id) {
+    miss(ctx,'id不能为空')
+    return
+  }
+  const sql = `SELECT * FROM article WHERE id = ${id}`
+  const result = await query(sql)
   success(ctx,result)
 }
 
@@ -67,5 +78,6 @@ module.exports = {
   pagingQuery,
   addArticle,
   updateArticle,
-  deleteArticle
+  deleteArticle,
+  queryOne
 }
