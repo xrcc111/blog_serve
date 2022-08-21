@@ -87,7 +87,7 @@ async function featchBlogMessage(ctx) {
 async function addUser (ctx) {
   const {qq, message, nickname, parentId}  = ctx.request.body
   console.log(qq, message, nickname, parentId);
-  const sql = `INSERT INTO parent (qq, message, nickname, parent_id) VALUES ( ${qq}, '${message}', '${nickname}', ${parentId} )`
+  const sql = `INSERT INTO parent (qq, message, nickname, parent_id) VALUES ( '${qq}', '${message}', '${nickname}', ${parentId} )`
   const result = await query(sql)
   ctx.body = result
 }
