@@ -89,7 +89,7 @@ async function addUser (ctx) {
   console.log(qq, message, nickname, parentId);
   const sql = `INSERT INTO parent (qq, message, nickname, parent_id) VALUES ( '${qq}', '${message}', '${nickname}', ${parentId} )`
   const result = await query(sql)
-  ctx.body = result
+  success(ctx,result)
 }
 
 // 删除
