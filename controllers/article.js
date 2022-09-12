@@ -62,14 +62,27 @@ async function deleteArticle(ctx) {
   success(ctx,result)
 }
 
-// 文章查详情
+// 文章前台查详情
 async function queryOne(ctx) {
   const {id} = ctx.query
   if(!id) {
     miss(ctx,'id不能为空')
     return
   }
-  const sql = `SELECT * FROM article WHERE id = ${id}`
+  const sql = `select id, label_name, title, content,b.create_time AS create_time, b.update_time AS update_time
+  from label a inner join article b on a.label_id=b.label_id WHERE id = ${id}`
+  const result = await query(sql)
+  success(ctx,result)
+}
+
+//  后管查详情
+async function queryDetail(ctx) {
+  const {id} = ctx.query
+  if(!id) {
+    miss(ctx,'id不能为空')
+    return
+  }
+  const sql = `select * from article WHERE id = ${id}`
   const result = await query(sql)
   success(ctx,result)
 }
@@ -79,5 +92,6 @@ module.exports = {
   addArticle,
   updateArticle,
   deleteArticle,
-  queryOne
+  queryOne,
+  queryDetail
 }

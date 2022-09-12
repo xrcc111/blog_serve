@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 
 router.prefix('/article')
-const { pagingQuery, addArticle, updateArticle, deleteArticle, queryOne } = require('../controllers/article')
+const { pagingQuery, addArticle, updateArticle, deleteArticle, queryOne, queryDetail } = require('../controllers/article')
 
 // 文章列表查询
 router.get('/', pagingQuery)
@@ -17,5 +17,8 @@ router.post('/delete',deleteArticle)
 
 // 单个文章详情
 router.get('/query', queryOne)
+
+// 后管文章详情查询
+router.get('/detail', queryDetail)
 
 module.exports = router
