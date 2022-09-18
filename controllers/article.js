@@ -87,11 +87,21 @@ async function queryDetail(ctx) {
   success(ctx,result)
 }
 
+// 文章标题模糊搜索
+async function queryArticleByTitle(ctx) {
+  const {title} = ctx.query
+  const sql = `select id, label_name, title, cover_img,b.create_time AS create_time, b.update_time AS update_time
+  from label a inner join article b on a.label_id=b.label_id WHERE title like '%${title}%';`
+  const result = await query(sql)
+  success(ctx,result)
+}
+
 module.exports = {
   pagingQuery,
   addArticle,
   updateArticle,
   deleteArticle,
   queryOne,
-  queryDetail
+  queryDetail,
+  queryArticleByTitle
 }
