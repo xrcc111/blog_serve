@@ -6,6 +6,7 @@ const onerror = require('koa-onerror')
 const error = require('koa-json-error')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+// const cors = require('koa2-cors')
 
 // 引入
 const index = require('./routes/index')
@@ -22,6 +23,23 @@ onerror(app)
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+
+// 允许跨域
+// app.use(
+//   cors({
+//     origin: function (ctx) { //设置允许来自指定域名请求
+//         // if (ctx.url === '/api/list') {
+//         //     return '*'; // /api/list接口所有域名都可以请求
+//         // }
+//         return 'http://backstage.xrblogs.cn/'; //只允许这个域名的请求
+//     },
+//     maxAge: 5, //指定本次预检请求的有效期，单位为秒。
+//     credentials: true, //是否允许发送Cookie
+//     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], //设置所允许的HTTP请求方法
+//     allowHeaders: ['Content-Type', 'Authorization', 'Accept'], //设置服务器支持的所有头信息字段
+//     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'] //设置获取其他自定义字段
+// })
+// )
 
 // 使用koa-json-error进行错误处理
 app.use(error({
