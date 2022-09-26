@@ -9,7 +9,7 @@ PRIMARY KEY (sch_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 学生表
+  -- 学生表
 CREATE TABLE student (
 st_id int(11) NOT NULL AUTO_INCREMENT,
 st_name varchar(20) NOT NULL,

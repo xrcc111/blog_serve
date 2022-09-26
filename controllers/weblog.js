@@ -16,7 +16,7 @@ async function addWebLog(ctx) {
 
 // 查询日志
 async function queryWebLog(ctx) {
-  const sql = `SELECT * from weblog`
+  const sql = `SELECT * from weblog ORDER BY create_time DESC`
   const result = await query(sql)
   success(ctx,result)
 }
