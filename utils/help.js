@@ -22,6 +22,18 @@ function convertTree (array) {
   return result
 }
 
+//富文本转义
+function escapeLongText(str) {
+  return str.replace(new RegExp('"', 'g'),"'/");
+}
+
+// 富文本反转义
+function unEscapeLongText(str) {
+  return str.replace(new RegExp("'/", 'g'), '"');
+}
+
 module.exports = {
-  convertTree
+  convertTree,
+  escapeLongText,
+  unEscapeLongText
 }

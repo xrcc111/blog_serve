@@ -2,6 +2,7 @@
 const query = require('../mysql/index')
 const {fetchArticleNums, paging, handlePages} = require('../mysql/aritcle')  //分页方法整合
 const {success, miss} = require('../utils/response')// 响应
+const { escapeLongText, unEscapeLongText} = require('../utils/help')
 
 // 文章查询所有
 async function pagingQuery(ctx) {
@@ -32,7 +33,8 @@ async function addArticle(ctx) {
     miss(ctx,'请求参数缺失,请检查参数')
    return
   }
-  const sql = `INSERT INTO article VALUES (null, ${labelId}, '${title}', '${coverImg}', '${content}', now(), now() )`
+  const longText = escapeLongText(content) // 将富文本进行转义
+  const sql = `INSERT INTO article VALUES (null, ${labelId}, '${title}', '${coverImg}', "${longText}", now(), now() )`
   const result = await query(sql)
   success(ctx,result)
 }
@@ -41,11 +43,12 @@ async function addArticle(ctx) {
 async function updateArticle(ctx) {
   const {labelId, title, coverImg, content, id} = ctx.request.body
   const isEmpty = (labelId && title && coverImg && content && id)
+  const longText = escapeLongText(content) // 将富文本进行转义
   if (!isEmpty) {
     miss(ctx,'请求参数缺失,请检查参数')
    return
   }
-  const sql = `UPDATE article SET label_id = ${labelId}, title = '${title}', cover_img = '${coverImg}', content = '${content}', update_time = now()  WHERE id = ${id}`
+ const sql = `UPDATE article SET label_id = ${labelId}, title = '${title}', cover_img = '${coverImg}', content = "${longText}", update_time = now()  WHERE id = ${id}`
   const result = await query(sql)
   success(ctx,result)
 }
@@ -72,6 +75,9 @@ async function queryOne(ctx) {
   const sql = `select id, label_name, title, content,b.create_time AS create_time, b.update_time AS update_time
   from label a inner join article b on a.label_id=b.label_id WHERE id = ${id}`
   const result = await query(sql)
+  console.log(result)
+  result[0].content = unEscapeLongText(result[0].content)
+  console.log(result[0].content)
   success(ctx,result)
 }
 
@@ -84,6 +90,7 @@ async function queryDetail(ctx) {
   }
   const sql = `select * from article WHERE id = ${id}`
   const result = await query(sql)
+  result[0].content = unEscapeLongText(result[0].content)
   success(ctx,result)
 }
 
