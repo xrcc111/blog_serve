@@ -75,9 +75,7 @@ async function queryOne(ctx) {
   const sql = `select id, label_name, title, content,b.create_time AS create_time, b.update_time AS update_time
   from label a inner join article b on a.label_id=b.label_id WHERE id = ${id}`
   const result = await query(sql)
-  console.log(result)
   result[0].content = unEscapeLongText(result[0].content)
-  console.log(result[0].content)
   success(ctx,result)
 }
 

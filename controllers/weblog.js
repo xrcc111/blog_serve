@@ -1,5 +1,6 @@
 // 引入数据库相关
 const query = require('../mysql/index')
+const { fetchTotals, paging, handlePages } = require('../mysql/weblog')
 const {success, miss} = require('../utils/response')// 响应
 
 // 新增日志
@@ -16,9 +17,22 @@ async function addWebLog(ctx) {
 
 // 查询日志
 async function queryWebLog(ctx) {
-  const sql = `SELECT * from weblog ORDER BY create_time DESC`
-  const result = await query(sql)
-  success(ctx,result)
+  const {pageNum, pageSize} = ctx.query
+  if(pageNum&&pageSize) {
+   const current = (pageNum - 1) * pageSize // 获取当前起始页码
+   const total = (await fetchTotals())[0].total //  获取文章总条数
+   const result = await paging(current, pageSize)
+   ctx.body = {
+    code: 200,
+    data: result,
+    //分页所有的参数
+    ...handlePages(pageNum, pageSize, total)
+    }
+  }else {
+   const sql = `select id, log, create_time FROM weblog ORDER BY create_time DESC `  //查询所有
+   const result = await query(sql)
+   success(ctx,result)
+  }
 }
 
 // 修改日志
