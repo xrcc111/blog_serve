@@ -9,6 +9,9 @@ const {convertTree} = require('../utils/help')
 // 分页方法整合
 const {fetchArticleNums, paging, handlePages} = require('../mysql/tree')  //分页方法整合
 
+// 引入QQ邮箱服务
+const { sendMail } = require('../utils/mail')
+
 // 用户登录
 async function login(ctx) {
     // 获取到用户信息
@@ -91,6 +94,7 @@ async function addUser (ctx) {
   const sql = `INSERT INTO parent (qq, message, nickname, parent_id) VALUES ( '${avatar}', '${message}', '${nickname}', ${parentId} )`
   const result = await query(sql)
   success(ctx,result)
+  sendMail(parentId,qq,subject="您好，您收到<劲夫随笔>'评论的一条回复",message)
 }
 
 // 删除
