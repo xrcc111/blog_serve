@@ -6,6 +6,7 @@ const onerror = require('koa-onerror')
 const error = require('koa-json-error')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const{ koaBody }= require('koa-body');//  引入koaBody作为中间件实现文件上传
 
 // 引入
 const index = require('./routes/index')
@@ -15,6 +16,7 @@ const label = require('./routes/label')
 const links = require('./routes/links')
 const weblog = require('./routes/weblog')
 const common = require('./routes/common')
+const upload = require('./routes/upload')
 
 // error handler
 onerror(app)
@@ -23,6 +25,16 @@ onerror(app)
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+
+//这里使用koaBody
+app.use(
+  koaBody({
+    multipart: true,
+    formidable: {
+    maxFileSize: 200*1024*1024 // 设置上传文件大小最大限制，默认2M
+    }
+  })
+);
 
 // 使用koa-json-error进行错误处理
 app.use(error({
@@ -52,6 +64,7 @@ app.use(label.routes(), label.allowedMethods())
 app.use(links.routes(), links.allowedMethods())
 app.use(weblog.routes(), weblog.allowedMethods())
 app.use(common.routes(), common.allowedMethods())
+app.use(upload.routes(), upload.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
