@@ -7,6 +7,10 @@ const error = require('koa-json-error')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const{ koaBody }= require('koa-body');//  引入koaBody作为中间件实现文件上传
+// 引入node的path模块
+const path = require('path')
+// koa-static中间件，用于访问静态文件
+const static = require('koa-static')
 
 // 引入
 const index = require('./routes/index')
@@ -70,5 +74,8 @@ app.use(upload.routes(), upload.allowedMethods())
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
+
+// 使用中间件，利用path模块的方法拼接出静态文件目录的绝对路径
+app.use(static(path.join(__dirname,'./routes/upload')))
 
 module.exports = app
