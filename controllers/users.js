@@ -54,6 +54,7 @@ async function selectAll(ctx) {
    const current = (pageNum - 1) * pageSize // 获取当前起始页码
    const total = (await fetchArticleNums())[0].total //  获取文章总条数
    const result = await paging(current, pageSize)
+   console.log(result);
    ctx.body = {
     code: 200,
     data:convertTree(result),
