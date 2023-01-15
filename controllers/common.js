@@ -17,7 +17,7 @@
   async function getClientInfo(ctx) {
     const clientIP = ctx.request.ip;
     const user_agent = ctx.request.header['user-agent']
-    const connection = ctx.request.header['connection']
+    const connection = ctx.request.header['Connection']
     const sql = `insert into client values (null, '${connection}', "${clientIP}", "${user_agent}", now()) `
     const result = await query(sql)
     success(ctx, {
