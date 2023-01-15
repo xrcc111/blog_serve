@@ -13,6 +13,18 @@
   const messages = await query(messageSql)
   success(ctx, {articles:articles[0].articleNum,labels:labels[0].labelNum,messages:messages[0].messageNum})
  }
+
+  async function getClientInfo(ctx) {
+    const clientIP = ctx.request.ip;
+    const user_agent = ctx.request.header['user-agent']
+    const connection = ctx.request.header['connection']
+    const sql = `insert into client values (null, '${connection}', "${clientIP}", "${user_agent}", now()) `
+    const result = await query(sql)
+    success(ctx, {
+      message: 'ok'
+    })
+  }
  module.exports = {
-  queryAllLength
+  queryAllLength,
+  getClientInfo
  }
